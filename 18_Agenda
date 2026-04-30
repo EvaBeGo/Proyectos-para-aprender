@@ -1,0 +1,78 @@
+import json                # el módulo json. JSON es un formato para guardar datos organizados en un fichero de texto 
+try:
+        with open('book_dict.json', 'r') as f:          # Aqui es para leer la agenda
+            book_dict = json.load(f)
+except FileNotFoundError:
+    book_dict = []
+
+def save_adress_book():                                   # Aqui es para guardar en la agenda
+    with open('book_dict.json', 'w') as f:            # json.dump convierte tu lista de diccionarios en texto y la guarda. json.load la lee y la convierte de vuelta a lista de diccionarios.
+        json.dump(book_dict, f)
+
+def add_contact():                         # Vamos a agregar contactos
+    name = input('Nombre: ')
+    phone_number = input('Telefono: ')
+    email = input('Email: ')
+    contact = {
+        'name': name,
+        'phone_number': phone_number,
+        'email': email
+    }
+    book_dict.append(contact)
+    save_adress_book()
+    print('👍Contacto guardado!')
+
+# Ver todos los contactos
+def view_contacts():
+    if len(book_dict) == 0:
+        print('Tu agenda aun esta vacia.')
+    for contact in book_dict:                
+        print(f"\n👤 {contact['name']} | 📞 {contact['phone_number']} | ✉️  {contact['email']}")
+
+# Buscar un contacto por nombre
+def search_contact():
+    name = input('Que nombre buscas? ')
+    found = False
+    for contact in book_dict:
+        if name.lower() in contact['name'].lower():
+            print(f"👤 {contact['name']} | 📞 {contact['phone_number']} | ✉️ {contact['email']}")
+            found = True
+    if not found:
+        print('❌ No se encontró ningún contacto con ese nombre.')
+
+def delete_contact():
+    name = input('Que contacto quieres eliminar?')
+    for contact in book_dict:
+        if contact['name'].lower() == name.lower():
+            book_dict.remove(contact)
+            save_adress_book()
+            print(f'{name} eliminado🗑️.')
+            return
+    print('❌ No se encontró ese contacto.')
+
+def menu():
+    while True:
+        print('\n==== AGENDA ====')
+        print('1. Añadir contacto')
+        print('2. Ver contactos')
+        print('3. Buscar contactos')
+        print('4. Eliminar contacto')
+        print('5. Salir')
+        option = input('Selecciona una opcion: ')
+        if option == '1':
+            add_contact()
+        elif option == '2':
+            view_contacts()
+        elif option == '3':
+            search_contact()
+        elif option == '4':
+            delete_contact()
+        elif option == '5':
+            print('Hasta luegoo Boniatoo')
+            break
+        else:
+            print('❌ Opcion no valida ❌')
+
+menu()
+
+
