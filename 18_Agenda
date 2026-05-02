@@ -69,19 +69,19 @@ def edit_contact():
     if contact is None:
         print('No se ha podido encontrar ese contacto en especifico.')
         return
-    new_name = input(f'Nombre nuevo({contact['name']}): ')
+    new_name = input(f"Nombre nuevo({contact['name']}): ")
     if new_name == '':
         new_name = contact['name']
 
     while True:
-        new_phone = input(f'Telefono nuevo ({contact['phone_number']}): ')
+        new_phone = input(f"Telefono nuevo ({contact['phone_number']}): ")
         if new_phone == '':
             new_phone = contact['phone_number']
             break
         if new_phone.isdigit() and len(new_phone) == 9:
             break
         print('❌ El teléfono debe tener exactamente 9 números.')
-    new_email = input(f'Email Nuevo ({contact['email']}): ')
+    new_email = input(f"Email Nuevo ({contact['email']}): ")
     if new_email == '':
         new_email = contact['email']
     contact['name'] = new_name
