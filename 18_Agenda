@@ -5,7 +5,7 @@ try:
 except FileNotFoundError:
     book_dict = []
 
-def save_adress_book():                                   # Aqui es para guardar en la agenda
+def save_address_book():                                   # Aqui es para guardar en la agenda
     with open('book_dict.json', 'w') as f:            # json.dump convierte tu lista de diccionarios en texto y la guarda. json.load la lee y la convierte de vuelta a lista de diccionarios.
         json.dump(book_dict, f)
 
@@ -17,14 +17,21 @@ def add_contact():                         # Vamos a agregar contactos
             break
         else: 
             print('La agenda solo admite numeros telefonicos de 9 digitos')
-    email = input('Email: ')
+    while True:
+            email = input('Email: ')
+            split = email.split('@')
+            if len(split) == 2 and split[0] != '' and split[1] != '':
+                break
+            else:
+                print('El correo introducido no es valido')
+
     contact = {
         'name': name,
         'phone_number': phone_number,
         'email': email
     }
     book_dict.append(contact)
-    save_adress_book()
+    save_address_book()
     print('👍Contacto guardado!')
 
     
@@ -53,7 +60,7 @@ def delete_contact():
     for contact in book_dict:
         if contact['name'].lower() == name.lower():
             book_dict.remove(contact)
-            save_adress_book()
+            save_address_book()
             print(f'{name} eliminado🗑️.')
             return
     print('❌ No se encontró ese contacto.')
@@ -81,13 +88,21 @@ def edit_contact():
         if new_phone.isdigit() and len(new_phone) == 9:
             break
         print('❌ El teléfono debe tener exactamente 9 números.')
-    new_email = input(f"Email Nuevo ({contact['email']}): ")
-    if new_email == '':
-        new_email = contact['email']
+    while True:
+        new_email = input(f"Email Nuevo ({contact['email']}): ")
+        if new_email == '':
+            new_email = contact['email']
+            break
+        split = new_email.split('@')
+        if len(split) == 2 and split[0] != '' and split[1] != '':
+            break
+        else:
+            print('El correo introducido no es valido')
+
     contact['name'] = new_name
     contact['phone_number'] = new_phone
     contact['email'] = new_email
-    save_adress_book()
+    save_address_book()
     print('👍 Contacto actualizado!')
 
 def menu():
