@@ -11,7 +11,12 @@ def save_adress_book():                                   # Aqui es para guardar
 
 def add_contact():                         # Vamos a agregar contactos
     name = input('Nombre: ')
-    phone_number = input('Telefono: ')
+    while True:
+        phone_number = input('Telefono: ')
+        if phone_number.isdigit() and len(phone_number) == 9:
+            break
+        else: 
+            print('La agenda solo admite numeros telefonicos de 9 digitos')
     email = input('Email: ')
     contact = {
         'name': name,
@@ -22,11 +27,14 @@ def add_contact():                         # Vamos a agregar contactos
     save_adress_book()
     print('👍Contacto guardado!')
 
+    
+
 # Ver todos los contactos
 def view_contacts():
-    if len(book_dict) == 0:
+    sorted_contacts = sorted(book_dict, key=lambda c: c['name'].lower())
+    if len(sorted_contacts) == 0:
         print('Tu agenda aun esta vacia.')
-    for contact in book_dict:                
+    for contact in sorted_contacts:                
         print(f"\n👤 {contact['name']} | 📞 {contact['phone_number']} | ✉️  {contact['email']}")
 
 # Buscar un contacto por nombre
@@ -50,6 +58,38 @@ def delete_contact():
             return
     print('❌ No se encontró ese contacto.')
 
+def edit_contact():
+    view_contacts()
+    name = input('Que contacto quieres editar? ')
+    contact = None
+    for c in book_dict:
+        if c['name'].lower() == name.lower():
+            contact = c
+            break
+    if contact is None:
+        print('No se ha podido encontrar ese contacto en especifico.')
+        return
+    new_name = input(f'Nombre nuevo({contact['name']}): ')
+    if new_name == '':
+        new_name = contact['name']
+
+    while True:
+        new_phone = input(f'Telefono nuevo ({contact['phone_number']}): ')
+        if new_phone == '':
+            new_phone = contact['phone_number']
+            break
+        if new_phone.isdigit() and len(new_phone) == 9:
+            break
+        print('❌ El teléfono debe tener exactamente 9 números.')
+    new_email = input(f'Email Nuevo ({contact['email']}): ')
+    if new_email == '':
+        new_email = contact['email']
+    contact['name'] = new_name
+    contact['phone_number'] = new_phone
+    contact['email'] = new_email
+    save_adress_book()
+    print('👍 Contacto actualizado!')
+
 def menu():
     while True:
         print('\n==== AGENDA ====')
@@ -57,7 +97,8 @@ def menu():
         print('2. Ver contactos')
         print('3. Buscar contactos')
         print('4. Eliminar contacto')
-        print('5. Salir')
+        print('5. Editar contacto')
+        print('6. Salir')
         option = input('Selecciona una opcion: ')
         if option == '1':
             add_contact()
@@ -68,11 +109,11 @@ def menu():
         elif option == '4':
             delete_contact()
         elif option == '5':
+            edit_contact()
+        elif option == '6':
             print('Hasta luegoo Boniatoo')
             break
         else:
             print('❌ Opcion no valida ❌')
 
 menu()
-
-
