@@ -1,0 +1,60 @@
+import json
+data = {
+    'salary': 0,
+    'expenses': []
+}
+try:
+        with open('data.json', 'r') as f:          
+            data = json.load(f)
+except FileNotFoundError:
+    data = {
+        'salary': 0,
+        'expenses': []
+    }
+def save_data():                                
+    with open('data.json', 'w') as f:           
+        json.dump(data, f)
+
+def add_salary():
+    try:
+        new_salary = float(input("Cuanto dinero vas a añadir? "))
+    except ValueError:
+        print('Escribe la cantidad en numeros') 
+    data['salary'] += new_salary
+    save_data()
+    print(f'Tu sueldo actual es de {data['salary']}.')
+
+def add_expenses():
+def manage_expenses():
+def check_salary_and_expenses():
+def delete_expenses():
+
+
+
+def menu():
+    while True:
+        print('\n==== Gestor de dinero ====')
+        print('1. Añadir sueldo')
+        print('2. Añadir gasto')
+        print('3. Gestionar gastos')
+        print('4. Ver sueldo y gastos por categoria')
+        print('5. Eliminar gasto')
+        print('6. Salir')
+        option = input('Selecciona una opcion: ')
+        if option == '1':
+            add_salary()
+        elif option == '2':
+            add_expenses()
+        elif option == '3':
+            manage_expenses()
+        elif option == '4':
+            check_salary_and_expenses()
+        elif option == '5':
+            delete_expenses()
+        elif option == '6':
+            print('Hasta luegoo Boniatoo')
+            break
+        else:
+            print('❌ Opcion no valida ❌')
+
+menu()
