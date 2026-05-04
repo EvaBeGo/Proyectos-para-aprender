@@ -22,7 +22,7 @@ def add_salary():
         print('Escribe la cantidad en numeros') 
     data['salary'] += new_salary
     save_data()
-    print(f'Tu sueldo actual es de {data['salary']}.')
+    print(f'Tu sueldo actual es de {data['salary']} .')
 
 def add_expenses():
 def manage_expenses():
